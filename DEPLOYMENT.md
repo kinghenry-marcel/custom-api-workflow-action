@@ -124,7 +124,10 @@ git push origin main
 1. In HubSpot, navigate to **Settings** → **Integrations** → **Private Apps**
 2. Find "Custom API Workflow Action" and click **Connect** or **Install**
 3. Complete the OAuth authorization flow
-4. Verify you're redirected to: `https://oauth.kinghenry.au/oauth/callback/custom_api_workflow`
+4. Verify the success screen:
+   - ✅ Shows **King Henry brand colors** (red gradient: #ED1943 to #CB163A)
+   - ✅ Displays "**Custom API Workflow Action** has been connected"
+   - ✅ Redirects to `https://app.hubspot.com/connected-apps/[your-portal-id]`
 
 ## 🧪 Testing the Workflow Action
 
