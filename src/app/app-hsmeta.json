@@ -1,0 +1,41 @@
+{
+  "uid": "CustomAPIWorkflowAction_app",
+  "type": "app",
+  "config": {
+    "description": "Send HTTP requests to any API endpoint directly from your workflows with flexible authentication options.",
+    "name": "Custom API Workflow Action",
+    "distribution": "private",
+    "auth": {
+      "type": "oauth",
+      "redirectUrls": [
+        "https://oauth.kinghenry.au/oauth/callback/custom_api_workflow"
+      ],
+      "requiredScopes": [
+        "automation"
+      ],
+      "optionalScopes": [
+        "crm.objects.contacts.read",
+        "crm.objects.contacts.write",
+        "crm.objects.companies.read",
+        "crm.objects.companies.write",
+        "crm.objects.deals.read",
+        "crm.objects.deals.write",
+        "crm.objects.custom.read",
+        "crm.objects.custom.write"
+      ],
+      "conditionallyRequiredScopes": []
+    },
+    "permittedUrls": {
+      "fetch": [
+        "https://oauth.kinghenry.au"
+      ],
+      "iframe": [],
+      "img": []
+    },
+    "support": {
+      "supportEmail": "support@kinghenry.au",
+      "documentationUrl": "https://github.com/marcelrees/custom-api-workflow-action",
+      "supportUrl": "https://kinghenry.au/support"
+    }
+  }
+}

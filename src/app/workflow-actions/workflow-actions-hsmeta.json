@@ -1,0 +1,228 @@
+{
+  "uid": "CustomAPIWorkflowAction_workflow_action",
+  "type": "workflow-action",
+  "config": {
+    "actionUrl": "https://oauth.kinghenry.au/api/workflow-action/execute",
+    "isPublished": true,
+    "supportedClients": [
+      {
+        "client": "WORKFLOWS"
+      }
+    ],
+    "inputFields": [
+      {
+        "typeDefinition": {
+          "name": "api_url",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": true
+      },
+      {
+        "typeDefinition": {
+          "name": "http_method",
+          "type": "enumeration",
+          "fieldType": "select",
+          "options": [
+            { "value": "GET", "label": "GET" },
+            { "value": "POST", "label": "POST" },
+            { "value": "PUT", "label": "PUT" },
+            { "value": "PATCH", "label": "PATCH" },
+            { "value": "DELETE", "label": "DELETE" }
+          ]
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": true
+      },
+      {
+        "typeDefinition": {
+          "name": "auth_type",
+          "type": "enumeration",
+          "fieldType": "select",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "bearer", "label": "Bearer Token" },
+            { "value": "api_key", "label": "API Key" },
+            { "value": "basic", "label": "Basic Auth" }
+          ]
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": true
+      },
+      {
+        "typeDefinition": {
+          "name": "bearer_token",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "api_key_header_name",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "api_key_value",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "basic_auth_username",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "basic_auth_password",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "query_parameters",
+          "type": "string",
+          "fieldType": "textarea"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "custom_headers",
+          "type": "string",
+          "fieldType": "textarea"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "request_body",
+          "type": "string",
+          "fieldType": "textarea"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "timeout_seconds",
+          "type": "number",
+          "fieldType": "number"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      }
+    ],
+    "inputFieldDependencies": [
+      {
+        "dependencyType": "CONDITIONAL_SINGLE_FIELD",
+        "controllingFieldName": "auth_type",
+        "controllingFieldValue": "bearer",
+        "targetFieldNames": ["bearer_token"]
+      },
+      {
+        "dependencyType": "CONDITIONAL_SINGLE_FIELD",
+        "controllingFieldName": "auth_type",
+        "controllingFieldValue": "api_key",
+        "targetFieldNames": ["api_key_header_name", "api_key_value"]
+      },
+      {
+        "dependencyType": "CONDITIONAL_SINGLE_FIELD",
+        "controllingFieldName": "auth_type",
+        "controllingFieldValue": "basic",
+        "targetFieldNames": ["basic_auth_username", "basic_auth_password"]
+      }
+    ],
+    "outputFields": [
+      {
+        "typeDefinition": {
+          "name": "status_code",
+          "type": "number",
+          "fieldType": "number"
+        }
+      },
+      {
+        "typeDefinition": {
+          "name": "response_body",
+          "type": "string",
+          "fieldType": "textarea"
+        }
+      },
+      {
+        "typeDefinition": {
+          "name": "success",
+          "type": "bool",
+          "fieldType": "booleancheckbox"
+        }
+      },
+      {
+        "typeDefinition": {
+          "name": "error_message",
+          "type": "string",
+          "fieldType": "textarea"
+        }
+      }
+    ],
+    "labels": {
+      "en": {
+        "actionName": "Custom API Call",
+        "actionDescription": "Send HTTP requests to any API endpoint with flexible authentication",
+        "actionCardContent": "Call {{api_url}} with {{http_method}}",
+        "inputFieldLabels": {
+          "api_url": "API URL",
+          "http_method": "HTTP Method",
+          "auth_type": "Authentication Type",
+          "bearer_token": "Bearer Token",
+          "api_key_header_name": "API Key Header Name",
+          "api_key_value": "API Key Value",
+          "basic_auth_username": "Basic Auth Username",
+          "basic_auth_password": "Basic Auth Password",
+          "query_parameters": "Query Parameters (JSON)",
+          "custom_headers": "Custom Headers (JSON)",
+          "request_body": "Request Body (JSON)",
+          "timeout_seconds": "Timeout (seconds)"
+        },
+        "inputFieldDescriptions": {
+          "api_url": "The full URL of the API endpoint to call (must start with https://)",
+          "http_method": "The HTTP method to use for the request",
+          "auth_type": "How to authenticate with the API",
+          "bearer_token": "Your API bearer token (will be sent in Authorization header)",
+          "api_key_header_name": "The header name for your API key (e.g., 'X-API-Key')",
+          "api_key_value": "Your API key value",
+          "basic_auth_username": "Username for basic authentication",
+          "basic_auth_password": "Password for basic authentication",
+          "query_parameters": "URL query parameters as JSON object. Example: {\"param1\": \"value1\", \"param2\": \"value2\"}",
+          "custom_headers": "Additional HTTP headers as JSON object. Example: {\"Content-Type\": \"application/json\"}",
+          "request_body": "JSON body for POST/PUT/PATCH requests. Example: {\"key\": \"value\"}",
+          "timeout_seconds": "Request timeout in seconds (default: 30, max: 60)"
+        },
+        "outputFieldLabels": {
+          "status_code": "Status Code",
+          "response_body": "Response Body",
+          "success": "Success",
+          "error_message": "Error Message"
+        }
+      }
+    },
+    "objectTypes": []
+  }
+}
