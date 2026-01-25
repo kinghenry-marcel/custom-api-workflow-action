@@ -12,6 +12,15 @@
     "inputFields": [
       {
         "typeDefinition": {
+          "name": "step_name",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
+      },
+      {
+        "typeDefinition": {
           "name": "api_url",
           "type": "string",
           "fieldType": "text"
@@ -186,8 +195,9 @@
       "en": {
         "actionName": "Custom API Call",
         "actionDescription": "Send HTTP requests to any API endpoint with flexible authentication",
-        "actionCardContent": "Call {{api_url}} with {{http_method}}",
+        "actionCardContent": "{{step_name}} - {{http_method}} {{api_url}}",
         "inputFieldLabels": {
+          "step_name": "Name this step",
           "api_url": "API URL",
           "http_method": "HTTP Method",
           "auth_type": "Authentication Type",
@@ -202,6 +212,7 @@
           "timeout_seconds": "Timeout (seconds)"
         },
         "inputFieldDescriptions": {
+          "step_name": "Optional: Give this action a custom name (e.g., 'Send to Slack', 'Update CRM'). If empty, will show the API URL and method.",
           "api_url": "The full URL of the API endpoint to call (must start with https://)",
           "http_method": "The HTTP method to use for the request",
           "auth_type": "How to authenticate with the API",
