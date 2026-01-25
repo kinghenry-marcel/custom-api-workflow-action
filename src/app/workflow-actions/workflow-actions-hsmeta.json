@@ -1,5 +1,5 @@
 {
-  "uid": "CustomAPIWorkflowAction_workflow_action",
+  "uid": "CustomAPIWorkflowAction_v2",
   "type": "workflow-action",
   "config": {
     "actionUrl": "https://oauth.kinghenry.au/api/workflow-action/execute",
@@ -17,7 +17,7 @@
           "fieldType": "text"
         },
         "supportedValueTypes": ["STATIC_VALUE"],
-        "isRequired": false
+        "isRequired": true
       },
       {
         "typeDefinition": {
@@ -195,9 +195,9 @@
       "en": {
         "actionName": "Custom API Call",
         "actionDescription": "Send HTTP requests to any API endpoint with flexible authentication",
-        "actionCardContent": "{{step_name}} - {{http_method}} {{api_url}}",
+        "actionCardContent": "{{step_name}}",
         "inputFieldLabels": {
-          "step_name": "Name this step",
+          "step_name": "Name this action",
           "api_url": "API URL",
           "http_method": "HTTP Method",
           "auth_type": "Authentication Type",
@@ -212,7 +212,7 @@
           "timeout_seconds": "Timeout (seconds)"
         },
         "inputFieldDescriptions": {
-          "step_name": "Optional: Give this action a custom name (e.g., 'Send to Slack', 'Update CRM'). If empty, will show the API URL and method.",
+          "step_name": "Give this action a descriptive name (e.g., 'Send to Slack', 'Update CRM', 'Notify Admin'). This will be displayed on the workflow card.",
           "api_url": "The full URL of the API endpoint to call (must start with https://)",
           "http_method": "The HTTP method to use for the request",
           "auth_type": "How to authenticate with the API",
