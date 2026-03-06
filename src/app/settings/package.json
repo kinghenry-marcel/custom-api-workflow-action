@@ -1,5 +1,5 @@
 {
-  "name": "hubspot-example-extension",
+  "name": "custom-api-workflow-action",
   "version": "0.1.0",
   "license": "MIT",
   "type": "module",
