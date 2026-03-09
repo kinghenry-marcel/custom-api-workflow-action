@@ -39,19 +39,11 @@ Everything else depends on oauth.kinghenry.au working correctly.
 
 These URLs must be live before creating the app listing. HubSpot will crawl them.
 
-- [ ] **Create Privacy Policy page** at `https://kinghenry.au/privacy`
-  - Must cover: what data is collected, how it's stored, who has access, retention policy
-  - Must mention HubSpot integration specifically (data flowing through oauth.kinghenry.au)
-  - Must be publicly accessible (no login, no paywall)
+- [x] **Privacy Policy live** at `https://kinghenry.au/privacy-policy` — returns 200
 
-- [ ] **Create Terms of Service page** at `https://kinghenry.au/terms`
-  - Must be live and publicly accessible
-  - Reference the Custom API Workflow Action specifically
+- [x] **Terms of Service live** at `https://kinghenry.au/terms-of-service` — returns 200
 
-- [ ] **Create and verify support page** at `https://kinghenry.au/support`
-  - Currently returns 404 — page does not exist
-  - Must be live and publicly accessible (currently referenced in `app-hsmeta.json` → `supportUrl`)
-  - Must not redirect elsewhere
+- [ ] **Publish app page** at `https://kinghenry.au/apps/custom-api-workflow-action` *(see §3 above — combined into one page)*
 
 ---
 
@@ -59,18 +51,10 @@ These URLs must be live before creating the app listing. HubSpot will crawl them
 
 HubSpot requires a publicly accessible setup guide URL specific to this integration.
 
-- [ ] **Create setup guide** at a public URL (e.g. `https://kinghenry.au/docs/custom-api-workflow-action/setup` or a GitHub Pages / Notion page)
-
-  The guide must contain (minimum for listing):
-  - What the app does
-  - How to install (OAuth flow steps with screenshots)
-  - How to add the "Custom API Call" action to a workflow
-  - How to configure each input field (api_url, http_method, auth_type, etc.)
-  - How to use output fields in subsequent workflow steps
-  - How to disconnect/uninstall the app
-
-  Reference template in the HubSpot docs:
-  https://developers.hubspot.com/docs/apps/developer-platform/list-apps/listing-your-app/create-an-app-listing-setup-guide
+- [ ] **Publish app page** at `https://kinghenry.au/apps/custom-api-workflow-action`
+  - Content ready at `content/app-page.html` — paste into HubSpot Content Hub source editor
+  - Combines: app overview, full setup guide, troubleshooting, and support contact
+  - This URL is now set as both `supportUrl` and `documentationUrl` in `app-hsmeta.json`
 
 ---
 
@@ -79,25 +63,20 @@ HubSpot requires a publicly accessible setup guide URL specific to this integrat
 - [x] **Verify the existing icon meets HubSpot's specs**
   - Confirmed: 800×800px PNG — meets all dimensional requirements
 
-- [ ] **Add icon to git**
-  - `git add App-Icon-Workflow-API-Call.png`
-  - The icon is currently untracked
+- [x] **Add icon to git**
+  - Committed in build #10 prep commit
 
 ---
 
 ## 5. Code — Clean Up Before Final Upload
 
-- [ ] **Commit uncommitted SettingsPage.tsx changes**
-  - `git status` shows `M src/app/settings/SettingsPage.tsx`
-  - Review the diff, then commit
+- [x] **Commit uncommitted SettingsPage.tsx changes**
+  - Committed: replaced invalid `<strong>` tags with `<Text inline format={{fontWeight:'bold'}}>`
 
-- [ ] **Run `hs project validate`** to confirm no config errors
-  - Fix any validation errors before uploading
+- [x] **Run `hs project validate`** — passed with no errors
 
-- [ ] **Upload a fresh build** once all code changes are committed
-  - `hs project upload --message "Prepare for marketplace submission"`
-  - Note the new build number
-  - `hs project deploy --build <N>`
+- [x] **Upload a fresh build**
+  - Build #10 uploaded and deployed to portal 49012930
 
 ---
 
@@ -127,7 +106,7 @@ Done entirely through the HubSpot UI at: Developer Account → App Listings → 
 ### 7a. Listing Info tab
 - [ ] Public app name: `Custom API Workflow Action`
 - [ ] Company name: `King Henry`
-- [ ] Tagline: (≤140 chars, e.g. "Send HTTP requests to any API directly from your HubSpot workflows")
+- [ ] Tagline: ready in `content/app-listing-copy.md` → "Tagline" section
 - [ ] Install Button URL: select the OAuth redirect URL from the dropdown
 - [ ] Sign-in configuration: does not require a separate partner sign-in (the OAuth flow is self-contained)
 - [ ] App icon: upload the 800×800 icon
@@ -147,7 +126,7 @@ Done entirely through the HubSpot UI at: Developer Account → App Listings → 
   4. Query parameters / custom headers textarea
   5. Output fields (status_code, response_body, success) being used in a branch
   6. The settings page
-- [ ] **App overview**: write a clear description of what the app does, the problem it solves, and why to install it. Focus on the integration value, not general product info. ~200–400 words.
+- [ ] **App overview**: content ready in `content/app-listing-copy.md` → "App Overview" section (~300 words)
 - [ ] **Shared data**: document how data flows
   - The app reads workflow enrollment data (contact/company/deal properties) and sends them to external APIs
   - No HubSpot objects are written to by this app
@@ -163,22 +142,19 @@ Done entirely through the HubSpot UI at: Developer Account → App Listings → 
 
 ### 7d. App Features tab
 - [ ] Add feature: "Custom API Call Workflow Action"
-  - Description: explain the workflow action, auth options, output fields
+  - Description ready in `content/app-listing-copy.md` → "Feature description" section
   - Add a screenshot
 
 ### 7e. Support Info tab
 - [ ] Support email: `support@kinghenry.au` ✅ (already in hsmeta)
 - [ ] Languages: English
 - [ ] Company website: `https://kinghenry.au`
-- [ ] Setup documentation URL: link to the setup guide created in section 3
-- [ ] Terms of Service URL: `https://kinghenry.au/terms`
-- [ ] Privacy Policy URL: `https://kinghenry.au/privacy`
+- [ ] Setup documentation URL: `https://kinghenry.au/apps/custom-api-workflow-action`
+- [ ] Terms of Service URL: `https://kinghenry.au/terms-of-service`
+- [ ] Privacy Policy URL: `https://kinghenry.au/privacy-policy`
 
 ### 7f. Testing Info tab
-- [ ] **App review instructions** — this app requires the oauth.kinghenry.au backend:
-  - The app does not require a separate platform account from the reviewer
-  - Write: "No testing credentials are required. To test: (1) Install the app via OAuth. (2) Create a workflow. (3) Add the 'Custom API Call' action. (4) Configure api_url = https://httpbin.org/get, http_method = GET, auth_type = none, step_name = Test. (5) Enroll a test contact. (6) Verify output fields: status_code = 200, success = true."
-  - If the backend requires credentials: invite `marketplace-tester@hubspot.com` to a test account with the app installed
+- [ ] **App review instructions** — copy ready in `content/app-listing-copy.md` → "App review instructions" section
 - [ ] **Technology Partner Program contacts**: add at least one contact (Main point of contact required)
   - Add: Developer contact, Marketing contact
 
@@ -210,16 +186,17 @@ Done entirely through the HubSpot UI at: Developer Account → App Listings → 
 | Build #3 deployed | ✅ Done | HubSpot portal 49012930 |
 | `distribution: marketplace` | ✅ Done | `src/app/app-hsmeta.json` |
 | OAuth configured | ✅ Done | app-hsmeta.json |
-| App icon file | ✅ 800×800px confirmed | `App-Icon-Workflow-API-Call.png` (untracked in git) |
+| App icon file | ✅ Committed, build #10 | `App-Icon-Workflow-API-Call.png` |
+| SettingsPage.tsx committed | ✅ Done | build #10 |
+| Build #10 deployed | ✅ Done | HubSpot portal 49012930 |
 | OAuth credentials in DigitalOcean | ❌ Not confirmed | DigitalOcean → HUBSPOT_APPS env var |
-| Privacy Policy page | ❌ Missing | Need `kinghenry.au/privacy` |
-| Terms of Service page | ❌ Missing | Need `kinghenry.au/terms` |
-| Setup guide | ❌ Missing | Need public URL |
+| Privacy Policy page | ✅ Live | `kinghenry.au/privacy-policy` |
+| Terms of Service page | ✅ Live | `kinghenry.au/terms-of-service` |
+| App page (setup + support) | ⚠️ Content ready, needs publishing | `content/app-page.html` → `kinghenry.au/apps/custom-api-workflow-action` |
 | 3 active installs | ❌ Missing | HubSpot Developer Portal |
 | App listing created | ❌ Missing | HubSpot Developer Portal |
 | Demo video | ❌ Missing | For app listing |
 | Screenshots | ❌ Missing | For app listing |
-| SettingsPage.tsx committed | ❌ Pending | git |
 
 ---
 

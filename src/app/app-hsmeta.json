@@ -26,8 +26,8 @@
     },
     "support": {
       "supportEmail": "support@kinghenry.au",
-      "documentationUrl": "https://github.com/marcelrees/custom-api-workflow-action",
-      "supportUrl": "https://kinghenry.au/support"
+      "documentationUrl": "https://kinghenry.au/apps/custom-api-workflow-action",
+      "supportUrl": "https://kinghenry.au/apps/custom-api-workflow-action"
     }
   }
 }

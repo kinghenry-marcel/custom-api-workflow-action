@@ -1,0 +1,83 @@
+I have a Terms of Service page for my company, King Henry (kinghenry.au). I'll share the link below. Please review it and tell me:
+
+1. Whether it meets HubSpot's requirements for marketplace-listed apps (see requirements below)
+2. Whether it covers the specific data flows and risks of the HubSpot app described below
+3. Whether it is appropriately general enough to cover other apps, SaaS products, and services we may offer now or in the future — without being so vague it's unenforceable
+4. Any clauses that are missing, legally insufficient, or that could expose us to liability
+5. Specific suggested additions or rewrites for any gaps
+
+---
+
+COMPANY OVERVIEW
+
+Company: King Henry
+Website: kinghenry.au
+Location: Australia
+Contact: support@kinghenry.au
+
+King Henry offers (or may offer) multiple products and services, including but not limited to:
+- HubSpot marketplace apps (e.g. Custom API Workflow Action)
+- SaaS tools
+- API services
+- Digital products
+- Consulting or professional services
+
+The Terms of Service at kinghenry.au/terms should cover all current and future offerings without requiring a separate ToS per product.
+
+---
+
+HUBSPOT APP DESCRIPTION (one of our current products)
+
+App name: Custom API Workflow Action
+Listed on: HubSpot App Marketplace
+
+What it does:
+- Adds a "Custom API Call" workflow action to HubSpot
+- When a workflow runs, the action sends an HTTP request to a user-configured external API, proxied through King Henry's backend server at oauth.kinghenry.au
+- The app uses OAuth to connect to HubSpot (scopes: automation, oauth)
+- Users may configure bearer tokens, API keys, or basic auth credentials as part of each workflow action step
+
+Risks specific to this app that the ToS should address:
+- Users configure requests to third-party APIs — King Henry is not responsible for the behaviour, availability, or content of those external APIs
+- User-supplied credentials (API keys, tokens, passwords) are transmitted through King Henry's infrastructure — the ToS should disclaim liability for credential exposure caused by the user's own misconfiguration
+- The app may transmit HubSpot contact/deal/company data to external APIs as configured by the user — responsibility for GDPR/privacy compliance of that data transmission lies with the user
+- The backend server (oauth.kinghenry.au) may be unavailable — uptime is not guaranteed
+
+---
+
+HUBSPOT MARKETPLACE TERMS OF SERVICE REQUIREMENTS
+
+HubSpot requires marketplace app Terms of Service to cover:
+
+1. Acceptance of terms (how a user agrees — by installing the app, by using the service, etc.)
+2. Description of the service being provided
+3. User obligations and acceptable use (what users may and may not do)
+4. Intellectual property ownership (who owns the app, the code, any outputs)
+5. Disclaimer of warranties (the service is provided "as is")
+6. Limitation of liability (cap on damages King Henry can be held liable for)
+7. Indemnification (user indemnifies King Henry for misuse)
+8. Termination (how either party can end the relationship)
+9. Governing law and jurisdiction (which country/state's laws apply)
+10. How changes to the terms are communicated
+11. Contact information for legal/support queries
+
+Additionally, for a ToS to hold up in Australia (where King Henry is based), it should:
+- Comply with the Australian Consumer Law (ACL) — cannot exclude statutory guarantees for consumers
+- Be clear and not misleading under the Competition and Consumer Act 2010
+- Reference the jurisdiction as Australia (specify state if possible)
+
+---
+
+SCOPE REQUIREMENT
+
+The ToS must be general enough to apply to:
+- Any current King Henry app or digital product
+- Any future SaaS product, API service, or tool we release
+- Consulting or professional services (if we offer them)
+- Any paid or free tier of any product
+
+It should NOT be so specific to the HubSpot app that it would need to be rewritten each time we launch a new product.
+
+---
+
+Please review the Terms of Service at the link I provide and give me a clear list of what's good, what's missing, and what needs to be improved. Be specific and actionable.

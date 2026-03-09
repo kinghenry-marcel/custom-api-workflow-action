@@ -1,0 +1,58 @@
+I have a Privacy Policy page for a HubSpot marketplace app. I'll share the link below. Please review it and tell me:
+
+1. Whether it meets HubSpot's requirements for marketplace-listed apps (see requirements below)
+2. Whether it covers all data flows specific to this app (see app description below)
+3. Any sections that are missing, vague, or legally insufficient
+4. Specific suggested additions or rewrites for any gaps
+
+---
+
+APP DESCRIPTION
+
+This is a HubSpot public app called "Custom API Workflow Action" published by King Henry (kinghenry.au).
+
+What it does:
+- Adds a workflow action to HubSpot called "Custom API Call"
+- When a HubSpot workflow runs this action, it sends an HTTP request to a user-configured external API endpoint
+- The request is proxied through King Henry's backend server at oauth.kinghenry.au
+- The app uses OAuth to authenticate with HubSpot (scopes: automation, oauth)
+- No HubSpot object data is written back by this app — it is read-only from HubSpot's perspective
+
+Data flow:
+1. HubSpot sends the workflow action payload to oauth.kinghenry.au/api/workflow-action/execute
+2. The payload includes the action input fields (API URL, HTTP method, auth credentials, request body, headers, etc.) — these may contain HubSpot contact/deal/company property values embedded by the user via workflow tokens
+3. The backend server forwards the request to the user's configured external API
+4. The external API response (status code + body) is returned to HubSpot as output fields
+
+Authentication credentials stored/transmitted:
+- Bearer tokens, API keys, or basic auth username/passwords configured by the user per workflow action
+- These are transmitted through oauth.kinghenry.au at runtime but are not persistently stored by King Henry's backend
+
+OAuth tokens:
+- HubSpot OAuth tokens are stored by the backend to authenticate workflow action requests
+
+---
+
+HUBSPOT MARKETPLACE PRIVACY POLICY REQUIREMENTS
+
+HubSpot requires that marketplace app privacy policies cover all of the following:
+
+1. What data is collected from HubSpot portals and users
+2. How that data is used
+3. Whether data is shared with third parties, and if so, who and why
+4. How long data is retained and when it is deleted
+5. How users can request deletion of their data
+6. Security measures in place to protect the data
+7. Contact information for privacy-related requests
+8. Whether the app complies with GDPR and/or CCPA (required for EU/US users)
+9. A description of any cookies or tracking (if applicable)
+10. The effective date of the policy
+
+Additionally, HubSpot's Technology Partner Program agreement requires apps to:
+- Not use HubSpot customer data for purposes other than providing the integration service
+- Not sell customer data to third parties
+- Comply with HubSpot's acceptable use policy
+
+---
+
+Please review the privacy policy at the link I provide and give me a clear list of what's good, what's missing, and what needs to be improved. Be specific and actionable.
