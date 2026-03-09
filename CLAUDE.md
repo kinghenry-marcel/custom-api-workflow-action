@@ -4,6 +4,58 @@ This file provides guidance to Claude Code (claude.ai/code) when working on HubS
 
 IMPORTANT: IF THE 'HubSpotDev' MCP SERVER IS INSTALLED USE THE TOOLS BEFORE TRYING TO MANUALLY USE CLI COMMANDS OR BEFORE TRYING TO DO ANYTHING WITH HUBSPOT ASSETS
 
+## Project Context
+
+### What this project is
+A HubSpot marketplace app that adds a **"Custom API Call"** workflow action. When a workflow runs, it POSTs to `https://oauth.kinghenry.au/api/workflow-action/execute`, which proxies the HTTP request to the user-configured target API.
+
+```
+HubSpot Workflow → oauth.kinghenry.au/api/workflow-action/execute → User's target API
+```
+
+### Current deployment state
+- **Build:** #3 (deployed and live)
+- **Distribution:** `marketplace` (set in `src/app/app-hsmeta.json`)
+- **Portal:** king-henry-developer-account (49012930)
+- **OAuth callback:** `https://oauth.kinghenry.au/oauth/callback/custom_api_workflow`
+- **Action endpoint:** `https://oauth.kinghenry.au/api/workflow-action/execute`
+
+### Key files
+| File | Purpose |
+|------|---------|
+| `hsproject.json` | Project name, srcDir (`src`), platformVersion (`2025.2`) |
+| `src/app/app-hsmeta.json` | App config: OAuth, scopes, permittedUrls, distribution |
+| `src/app/workflow-actions/workflow-actions-hsmeta.json` | All input/output fields and conditional field dependencies |
+| `src/app/settings/SettingsPage.tsx` | Settings page UI (React, `@hubspot/ui-extensions`) |
+| `src/app/settings/settings-page-hsmeta.json` | Settings component config (entrypoint) |
+| `src/app/settings/package.json` | Dependencies for settings component |
+
+### Workflow action input fields (13 total)
+- `step_name` (text, **required**) — custom display name shown on workflow card via `actionCardContent`
+- `api_url` (text, required) — target HTTPS endpoint
+- `http_method` (select, required) — GET/POST/PUT/PATCH/DELETE
+- `auth_type` (select, required) — none/bearer/api_key/basic
+- `bearer_token` (text, optional) — shown when auth_type=bearer
+- `api_key_header_name` + `api_key_value` (text, optional) — shown when auth_type=api_key
+- `basic_auth_username` + `basic_auth_password` (text, optional) — shown when auth_type=basic
+- `query_parameters`, `custom_headers`, `request_body` (textarea, optional) — JSON objects
+- `timeout_seconds` (number, optional) — max 60
+
+### Output fields
+- `status_code` (number), `response_body` (string), `success` (bool), `error_message` (string)
+
+### Backend server
+The HTTP proxying logic lives in a separate repo:
+- **Location:** `/Users/marcelrees/Projects/hubspot/hubspot-oauth-handler/server.js`
+- **Deployed at:** `https://oauth.kinghenry.au` (DigitalOcean App Platform)
+
+### Important constraints
+- `distribution: marketplace` means `app-function` components are NOT allowed
+- All fetch URLs in settings/card components must be listed in `app-hsmeta.json` → `permittedUrls.fetch`
+- Currently permitted fetch URL: `https://oauth.kinghenry.au`
+- Settings component cannot use `@hubspot/ui-extensions/crm` components
+- `style` props are NOT valid on `@hubspot/ui-extensions` components
+
 ## HubSpot Project Information
 - The project configuration is in the `hsproject.json` file
 - A directory is considered a part of the project if it or a directory above it contains a `hsproject.json` file

@@ -85,11 +85,9 @@ All notable changes to the Custom API Workflow Action project.
 
 ## Next Steps
 
-1. Configure OAuth credentials in DigitalOcean (see DEPLOYMENT.md)
-2. Test the new "Name this step" field in a workflow
-3. Verify custom names display correctly on workflow cards
-4. Complete integration testing with httpbin.org
-5. Test with production APIs
+1. Complete integration testing with httpbin.org (see TEST_SCENARIOS.md)
+2. Test with production APIs
+3. Submit app for HubSpot Marketplace review
 
 ---
 

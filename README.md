@@ -203,11 +203,10 @@ The workflow action endpoint is located in the `hubspot-oauth-handler` repositor
 
 ## 🚦 Status
 
-- ✅ **Build #2**: Successfully deployed
+- ✅ **Build #3**: Successfully deployed
 - ✅ **OAuth**: Configured and ready
 - ✅ **Endpoint**: Server implementation complete
-- ⏳ **Testing**: Ready for integration testing
-- 📅 **Marketplace**: Planned for future release
+- ✅ **Distribution**: Marketplace
 
 ## 🤝 Support
 
@@ -237,7 +236,7 @@ MIT License - see LICENSE file for details
 
 ---
 
-**Version**: 1.0.0
-**Last Updated**: 2026-01-25
+**Version**: 1.0.0 (Build #3)
+**Last Updated**: 2026-03-09
 **Platform**: HubSpot 2025.2
-**Distribution**: Private (Marketplace release planned)
+**Distribution**: Marketplace

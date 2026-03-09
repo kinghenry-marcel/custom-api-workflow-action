@@ -38,21 +38,11 @@ const SettingsPage = ({ context }) => {
       <Box>
         <Heading>Key Features</Heading>
         <Flex direction="column" gap="small">
-          <Text>
-            • <strong>Multiple HTTP Methods:</strong> GET, POST, PUT, PATCH, DELETE
-          </Text>
-          <Text>
-            • <strong>Flexible Authentication:</strong> Bearer token, API key, Basic auth, or none
-          </Text>
-          <Text>
-            • <strong>Custom Configuration:</strong> Add query parameters, headers, and JSON request bodies
-          </Text>
-          <Text>
-            • <strong>Response Handling:</strong> Access status codes, response data, and error messages in your workflows
-          </Text>
-          <Text>
-            • <strong>Universal Support:</strong> Works with all HubSpot objects including custom objects
-          </Text>
+          <Text>• <Text inline={true} format={{ fontWeight: 'bold' }}>Multiple HTTP Methods:</Text> GET, POST, PUT, PATCH, DELETE</Text>
+          <Text>• <Text inline={true} format={{ fontWeight: 'bold' }}>Flexible Authentication:</Text> Bearer token, API key, Basic auth, or none</Text>
+          <Text>• <Text inline={true} format={{ fontWeight: 'bold' }}>Custom Configuration:</Text> Add query parameters, headers, and JSON request bodies</Text>
+          <Text>• <Text inline={true} format={{ fontWeight: 'bold' }}>Response Handling:</Text> Access status codes, response data, and error messages in your workflows</Text>
+          <Text>• <Text inline={true} format={{ fontWeight: 'bold' }}>Universal Support:</Text> Works with all HubSpot objects including custom objects</Text>
         </Flex>
       </Box>
 
@@ -94,16 +84,8 @@ const SettingsPage = ({ context }) => {
       <Box>
         <Heading>Support & Documentation</Heading>
         <Flex direction="column" gap="small">
-          <Text>
-            <strong>Support Email:</strong>{' '}
-            <Link href="mailto:support@kinghenry.au">support@kinghenry.au</Link>
-          </Text>
-          <Text>
-            <strong>Documentation:</strong>{' '}
-            <Link href="https://github.com/marcelrees/custom-api-workflow-action">
-              View on GitHub
-            </Link>
-          </Text>
+          <Text><Text inline={true} format={{ fontWeight: 'bold' }}>Support Email:</Text>{' '}<Link href="mailto:support@kinghenry.au">support@kinghenry.au</Link></Text>
+          <Text><Text inline={true} format={{ fontWeight: 'bold' }}>Documentation:</Text>{' '}<Link href="https://github.com/marcelrees/custom-api-workflow-action">View on GitHub</Link></Text>
         </Flex>
       </Box>
 

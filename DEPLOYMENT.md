@@ -5,7 +5,8 @@
 The HubSpot project has been successfully created and deployed:
 
 - **Project Name:** Custom API Workflow Action
-- **Build #:** 2 (deployed)
+- **Build #:** 3 (deployed)
+- **Distribution:** Marketplace
 - **Portal:** king-henry-developer-account (49012930)
 - **Project URL:** https://app.hubspot.com/developer-projects/49012930/project/Custom%20API%20Workflow%20Action
 
@@ -13,7 +14,7 @@ The HubSpot project has been successfully created and deployed:
 
 ### 1. ✅ Project Structure Created
 - Platform version: 2025.2
-- Distribution: Private (OAuth)
+- Distribution: Marketplace (OAuth)
 - Features: App, Workflow Action, Settings Page
 
 ### 2. ✅ App Configuration (`app-hsmeta.json`)
@@ -29,6 +30,7 @@ The HubSpot project has been successfully created and deployed:
 - Supports all object types (empty objectTypes array)
 
 **Input Fields:**
+- `step_name` (text, required) — custom label shown on workflow card
 - `api_url` (text, required)
 - `http_method` (select: GET/POST/PUT/PATCH/DELETE, required)
 - `auth_type` (select: none/bearer/api_key/basic, required)
@@ -257,24 +259,6 @@ Before using in production workflows:
 - [ ] Document API endpoints being called
 - [ ] Set up alerts for server errors
 
-## 🚀 Migration to Marketplace (Future)
-
-When ready to publish to HubSpot Marketplace:
-
-1. Update `distribution` in `app-hsmeta.json` from `private` to `marketplace`
-2. Add marketplace assets:
-   - App icon (256x256 PNG)
-   - Screenshots
-   - Detailed description
-   - Privacy policy URL
-   - Terms of service URL
-3. Implement additional security measures:
-   - Rate limiting per portal
-   - Enhanced SSRF protection
-   - Usage analytics
-4. Submit to HubSpot for review
-5. Upload new build: `hs project upload`
-
 ## 📞 Support
 
 For issues or questions:
@@ -287,3 +271,4 @@ For issues or questions:
 **Project Location:** `/Users/marcelrees/Projects/hubspot/custom-api-workflow-action`
 **Server Location:** `/Users/marcelrees/Projects/hubspot/hubspot-oauth-handler`
 **Created:** 2026-01-25
+**Last Updated:** 2026-03-09

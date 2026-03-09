@@ -1,33 +1,54 @@
-# HubSpot Projects
+# HubSpot Project Reference
 
-## Overview
+## This Project
 
-HubSpot projects are file-based build-and-deploy frameworks that allow you to develop apps and CMS content locally using the HubSpot CLI. Projects contain your app's configuration, source code, and assets, which are built and deployed to your HubSpot account.
+- **Name:** Custom API Workflow Action
+- **srcDir:** `src`
+- **platformVersion:** `2025.2`
+- **Distribution:** `marketplace`
+
+## Project Commands
+
+```bash
+hs project upload            # Build and upload (creates a new build number)
+hs project deploy --build N  # Deploy a specific build
+hs project dev               # Local dev server with hot reload
+hs project validate          # Validate config files before upload
+hs project list-builds       # See all builds and their status
+```
+
+## Upload vs Deploy
+
+- `hs project upload` creates a new build but does NOT make it live
+- `hs project deploy --build N` makes a specific build live
+- Both steps are required to push changes to production
 
 ## Project Structure
 
-- **`hsproject.json`**: Defines your project's name, source directory, and platform version
-- **`src/`**: Contains your project's source code organized by feature type (apps, cards, functions, etc.)
-- **`*-hsmeta.json` files**: Configuration files that define metadata for each component
-- **`hsprofile.*.json` files**: Profile configuration containing a target account ID and variables
+```
+custom-api-workflow-action/
+├── hsproject.json
+└── src/
+    └── app/
+        ├── app-hsmeta.json                              # App config (OAuth, distribution)
+        ├── settings/
+        │   ├── settings-page-hsmeta.json
+        │   ├── SettingsPage.tsx
+        │   └── package.json
+        └── workflow-actions/
+            └── workflow-actions-hsmeta.json             # Action fields + endpoint
+```
 
-## Getting Started
+## Component Rules
 
-1. **Upload your project**: Run `hs project upload` to build and deploy your project in your HubSpot account
-2. **Local development**: Run `hs project dev` to start a local development server with hot reloading for app cards
+- `app` → must be in `src/app/`
+- `settings` → must be in `src/app/settings/`
+- `workflow-action` → must be in `src/app/workflow-actions/`
+- `app-function` → NOT allowed when `distribution: marketplace`
+- Components cannot be in nested subdirectories
 
-## Next Steps
+## Resources
 
-### Documentation
-- [Quickstart Guide](https://developers.hubspot.com/docs/getting-started/quickstart) - Get up and running with a demo app
-- [Developer Platform Overview](https://developers.hubspot.com/docs/apps/developer-platform/build-apps/overview) - Learn about building apps on version 2025.2
-- [Project Commands Reference](https://developers.hubspot.com/docs/developer-tooling/local-development/hubspot-cli/project-commands) - Complete CLI command reference
-
-### Adding Features to your app
-
-Use `hs project add` to interactively add new features to your project, or check the [feature documentation](https://developers.hubspot.com/docs/apps/developer-platform/build-apps/overview#features) for available options.
-
-### Resources
-- [HubSpot Developer Documentation](https://developers.hubspot.com/docs)
-- [Developer Community Slack](https://developers.hubspot.com/slack)
-- [HubSpot CLI Documentation](https://developers.hubspot.com/docs/developer-tooling/local-development/hubspot-cli/install-the-cli)
+- [Developer Platform Overview](https://developers.hubspot.com/docs/apps/developer-platform/build-apps/overview)
+- [Project Commands Reference](https://developers.hubspot.com/docs/developer-tooling/local-development/hubspot-cli/project-commands)
+- [Example Components (2025.2)](https://github.com/HubSpot/hubspot-project-components/tree/main/2025.2/components)

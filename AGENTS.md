@@ -2,6 +2,30 @@
 
 IMPORTANT: IF THE 'HubSpotDev' MCP SERVER IS INSTALLED USE THE TOOLS BEFORE TRYING TO MANUALLY USE CLI COMMANDS OR BEFORE TRYING TO DO ANYTHING WITH HUBSPOT ASSETS
 
+## Project Overview
+
+**Custom API Workflow Action** — A HubSpot marketplace app providing a "Custom API Call" workflow action.
+
+Architecture: `HubSpot Workflow → POST https://oauth.kinghenry.au/api/workflow-action/execute → Target API`
+
+### Current State
+- Build #3, deployed, distribution: `marketplace`
+- Portal: king-henry-developer-account (49012930)
+- Backend: `/Users/marcelrees/Projects/hubspot/hubspot-oauth-handler/server.js` (deployed to DigitalOcean)
+
+### Key Files
+- `hsproject.json` — project config (srcDir: `src`, platformVersion: `2025.2`)
+- `src/app/app-hsmeta.json` — OAuth, scopes, permittedUrls (fetch: `https://oauth.kinghenry.au`)
+- `src/app/workflow-actions/workflow-actions-hsmeta.json` — 13 input fields, 4 output fields, field dependencies
+- `src/app/settings/SettingsPage.tsx` — settings page React component
+- `src/app/settings/settings-page-hsmeta.json` — settings component metadata
+
+### Constraints
+- `distribution: marketplace` → no `app-function` components allowed
+- `style` props are invalid on `@hubspot/ui-extensions` components
+- Settings cannot use `@hubspot/ui-extensions/crm` components
+- All `hubspot.fetch()` URLs must be in `permittedUrls.fetch` in `app-hsmeta.json`
+
 ## HubSpot Project Information
 - The project configuration is in the `hsproject.json` file
 - A directory is considered a part of the project if it or a directory above it contains a `hsproject.json` file
