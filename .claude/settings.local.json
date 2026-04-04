@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "mcp__HubSpotDev__search-docs",
+      "mcp__HubSpotDev__fetch-doc",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "mcp__HubSpotDev__upload-project",
+      "WebSearch",
+      "WebFetch(domain:developers.hubspot.com)",
+      "WebFetch(domain:www.hubspot.com)",
+      "mcp__HubSpotDev__validate-project",
+      "Bash(doctl apps:*)"
+    ]
+  }
+}

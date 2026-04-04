@@ -3,6 +3,30 @@ Content ready to paste into the HubSpot app listing form fields.
 
 ---
 
+## Pricing Plan (Free tier)
+
+**Plan name:** Free
+**Plan tagline:** For teams that want to connect HubSpot workflows to any API without the complexity
+**Pricing detail:** No credit card required
+**Free trial days:** (leave blank)
+**Pricing model:** Free
+
+**Features list** (one per line, paste each as a separate item):
+
+Unlimited API calls from any HubSpot workflow. Use the Custom API Call action in as many workflows and steps as you need with no request caps or throttling.
+
+GET, POST, PUT, PATCH and DELETE methods supported. Choose the right HTTP method for every API interaction, from reading data with GET to creating or updating records with POST, PUT and PATCH.
+
+Bearer token, API key header, and basic auth support. Configure authentication per workflow step without storing credentials in HubSpot properties. Supports the four most common API authentication patterns.
+
+Works on contacts, companies, deals, tickets and custom objects. Add the Custom API Call action to any HubSpot workflow regardless of the enrolled object type, including custom objects.
+
+Dynamic requests using HubSpot workflow tokens. Embed contact, company, deal or ticket property values directly into your API URL, request body, headers and query parameters at the time the workflow runs.
+
+Response data returned as workflow output fields. Every API call surfaces status code, response body, success flag and error message as output fields you can use in subsequent workflow steps, branches or property updates.
+
+---
+
 ## Tagline (≤140 chars)
 Send HTTP requests to any API directly from your HubSpot workflows — with bearer, API key, and basic auth support.
 
@@ -45,7 +69,21 @@ Any HubSpot user who wants to connect their workflows to external systems withou
 
 **Custom API Call Workflow Action**
 
-Adds a configurable HTTP request step to HubSpot Workflows. Supports GET, POST, PUT, PATCH, and DELETE methods with bearer token, API key, basic auth, or no authentication. Configure query parameters, custom headers, and a JSON request body using HubSpot tokens for dynamic values. Returns status_code, response_body, success, and error_message as output fields for use in subsequent workflow steps.
+Adds an HTTP request step to HubSpot Workflows. Supports GET, POST, PUT, PATCH and DELETE with bearer token, API key, basic auth or no auth. Set query parameters, custom headers and a JSON body using workflow tokens. Returns status_code, response_body, success and error_message as output fields.
+
+**Use API Responses to Enrich HubSpot Records**
+
+Fetch data from any external API and bring it back into HubSpot. Use a GET request to pull data from a third-party system, then pass the response_body output into a Set Property Value step to update contact, company or deal records — keeping your HubSpot data in sync without custom code.
+
+---
+
+## Shared data explanation (free text box)
+
+When a workflow runs the Custom API Call action, HubSpot sends the configured action inputs to King Henry's backend server (oauth.kinghenry.au), which forwards the HTTP request to the external API endpoint specified by the user. The request may include HubSpot object property values (such as contact email, deal name, or custom properties) if the user has embedded workflow tokens in the request body, headers, or query parameters.
+
+The external API's response (status code and response body) is returned to HubSpot and made available as output fields for use in subsequent workflow steps.
+
+King Henry's backend acts as a secure proxy only. No HubSpot object data is stored by King Henry beyond the duration of the request. No HubSpot objects are created, updated, or deleted by this app. The user is responsible for the data they choose to send to external APIs via workflow tokens.
 
 ---
 

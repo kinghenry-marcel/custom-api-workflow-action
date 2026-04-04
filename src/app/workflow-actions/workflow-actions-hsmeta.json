@@ -2,7 +2,7 @@
   "uid": "CustomAPIWorkflowAction_v2",
   "type": "workflow-action",
   "config": {
-    "actionUrl": "https://oauth.kinghenry.au/api/workflow-action/execute",
+    "actionUrl": "https://hub.kinghenry.au/api/apps/custom-api-workflow/execute",
     "isPublished": true,
     "supportedClients": [
       {
@@ -139,6 +139,15 @@
         },
         "supportedValueTypes": ["STATIC_VALUE"],
         "isRequired": false
+      },
+      {
+        "typeDefinition": {
+          "name": "response_json_path",
+          "type": "string",
+          "fieldType": "text"
+        },
+        "supportedValueTypes": ["STATIC_VALUE"],
+        "isRequired": false
       }
     ],
     "inputFieldDependencies": [
@@ -189,6 +198,13 @@
           "type": "string",
           "fieldType": "textarea"
         }
+      },
+      {
+        "typeDefinition": {
+          "name": "extracted_value",
+          "type": "string",
+          "fieldType": "text"
+        }
       }
     ],
     "labels": {
@@ -209,7 +225,8 @@
           "query_parameters": "Query Parameters (JSON)",
           "custom_headers": "Custom Headers (JSON)",
           "request_body": "Request Body (JSON)",
-          "timeout_seconds": "Timeout (seconds)"
+          "timeout_seconds": "Timeout (seconds)",
+          "response_json_path": "Extract JSON Path (optional)"
         },
         "inputFieldDescriptions": {
           "step_name": "Give this action a descriptive name (e.g., 'Send to Slack', 'Update CRM', 'Notify Admin'). This will be displayed on the workflow card.",
@@ -224,13 +241,15 @@
           "query_parameters": "URL query parameters as JSON object. Example: {\"param1\": \"value1\", \"param2\": \"value2\"}",
           "custom_headers": "Additional HTTP headers as JSON object. Example: {\"Content-Type\": \"application/json\"}",
           "request_body": "JSON body for POST/PUT/PATCH requests. Example: {\"key\": \"value\"}",
-          "timeout_seconds": "Request timeout in seconds (default: 30, max: 60)"
+          "timeout_seconds": "Request timeout in seconds (default: 30, max: 60)",
+          "response_json_path": "Dot-notation path to extract from the JSON response. Example: data.score or result.items.0.name"
         },
         "outputFieldLabels": {
           "status_code": "Status Code",
           "response_body": "Response Body",
           "success": "Success",
-          "error_message": "Error Message"
+          "error_message": "Error Message",
+          "extracted_value": "Extracted Value"
         }
       }
     },

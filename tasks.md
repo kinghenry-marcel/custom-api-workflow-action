@@ -10,28 +10,15 @@ Tasks are ordered by dependency. Complete sections top-to-bottom.
 
 Everything else depends on oauth.kinghenry.au working correctly.
 
-- [ ] **Configure OAuth credentials in DigitalOcean**
-  - Get Client ID and Client Secret from HubSpot Developer Portal → the app → Auth tab
-  - Add `custom_api_workflow` entry to the `HUBSPOT_APPS` environment variable in DigitalOcean
-  - Format: `{"custom_api_workflow": {"clientId": "...", "clientSecret": "...", "redirectUri": "https://oauth.kinghenry.au/oauth/callback/custom_api_workflow"}}`
-  - Redeploy after updating env vars
+- [x] **Configure OAuth credentials in DigitalOcean** — `custom_api_workflow` entry confirmed present in `HUBSPOT_APPS` env var
 
 - [x] **Backend server is live** — `oauth.kinghenry.au` is responding (HTTP 400 on malformed POST confirms server is up)
 
-- [ ] **Verify OAuth flow end-to-end**
-  - Install the app from a test account
-  - Confirm OAuth redirect lands at the correct callback URL
-  - Confirm the success screen shows correct branding and redirects to `https://app.hubspot.com/connected-apps/[hub-id]`
+- [x] **Verify OAuth flow end-to-end** — confirmed working
 
-- [ ] **Verify workflow action endpoint works post-OAuth**
-  - Create a test workflow with the "Custom API Call" action
-  - Run Test 1 from TEST_SCENARIOS.md (GET https://httpbin.org/get, no auth)
-  - Confirm `status_code: 200`, `success: true` in output fields
+- [x] **Verify workflow action endpoint works post-OAuth** — GET https://httpbin.org/get returned `status_code: 200`, `success: true`
 
-- [ ] **Set up server monitoring for oauth.kinghenry.au**
-  - Configure uptime monitoring (e.g. UptimeRobot, Better Uptime)
-  - Set up error alerting to support@kinghenry.au
-  - Document expected uptime SLA — HubSpot reviewers will ask about this
+- [x] **Set up server monitoring for oauth.kinghenry.au** — UptimeRobot configured, alerts to uptimerobot@kinghenry.au
 
 ---
 
@@ -43,7 +30,7 @@ These URLs must be live before creating the app listing. HubSpot will crawl them
 
 - [x] **Terms of Service live** at `https://kinghenry.au/terms-of-service` — returns 200
 
-- [ ] **Publish app page** at `https://kinghenry.au/apps/custom-api-workflow-action` *(see §3 above — combined into one page)*
+- [x] **App page live** at `https://kinghenry.au/apps/custom-api-workflow-action` *(see §3)*
 
 ---
 
@@ -51,10 +38,7 @@ These URLs must be live before creating the app listing. HubSpot will crawl them
 
 HubSpot requires a publicly accessible setup guide URL specific to this integration.
 
-- [ ] **Publish app page** at `https://kinghenry.au/apps/custom-api-workflow-action`
-  - Content ready at `content/app-page.html` — paste into HubSpot Content Hub source editor
-  - Combines: app overview, full setup guide, troubleshooting, and support contact
-  - This URL is now set as both `supportUrl` and `documentationUrl` in `app-hsmeta.json`
+- [x] **App page live** at `https://kinghenry.au/apps/custom-api-workflow-action`
 
 ---
 
@@ -189,10 +173,10 @@ Done entirely through the HubSpot UI at: Developer Account → App Listings → 
 | App icon file | ✅ Committed, build #10 | `App-Icon-Workflow-API-Call.png` |
 | SettingsPage.tsx committed | ✅ Done | build #10 |
 | Build #10 deployed | ✅ Done | HubSpot portal 49012930 |
-| OAuth credentials in DigitalOcean | ❌ Not confirmed | DigitalOcean → HUBSPOT_APPS env var |
+| OAuth credentials in DigitalOcean | ✅ Confirmed | DigitalOcean → HUBSPOT_APPS env var |
 | Privacy Policy page | ✅ Live | `kinghenry.au/privacy-policy` |
 | Terms of Service page | ✅ Live | `kinghenry.au/terms-of-service` |
-| App page (setup + support) | ⚠️ Content ready, needs publishing | `content/app-page.html` → `kinghenry.au/apps/custom-api-workflow-action` |
+| App page (setup + support) | ✅ Live | `kinghenry.au/apps/custom-api-workflow-action` |
 | 3 active installs | ❌ Missing | HubSpot Developer Portal |
 | App listing created | ❌ Missing | HubSpot Developer Portal |
 | Demo video | ❌ Missing | For app listing |

@@ -1,158 +1,546 @@
-<h1>Custom API Workflow Action — Setup Guide</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom API Workflow Action — Setup Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<p>This guide walks you through installing the Custom API Workflow Action app and using it in your HubSpot workflows to send HTTP requests to any external API.</p>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #1a1a1a;
+      background: #fff;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
 
-<hr>
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    h2 { font-size: 1.4rem; font-weight: 700; margin: 48px 0 12px; padding-bottom: 6px; border-bottom: 2px solid #eee; }
+    h3 { font-size: 1.05rem; font-weight: 600; margin: 24px 0 6px; }
 
-<h2>What this app does</h2>
+    p { margin-bottom: 14px; }
+    p:last-child { margin-bottom: 0; }
 
-<p>The <strong>Custom API Workflow Action</strong> adds a new action to HubSpot Workflows called <em>Custom API Call</em>. When a workflow runs this action, it sends an HTTP request to any API endpoint you configure — with full control over the method, authentication, headers, query parameters, and request body.</p>
+    ul, ol { margin: 0 0 14px 24px; }
+    li { margin-bottom: 6px; }
 
-<p>Use it to:</p>
-<ul>
-  <li>Notify external systems when a deal closes, a contact is created, or a form is submitted</li>
-  <li>Trigger webhooks in tools like Zapier, Make, or your own backend</li>
-  <li>Push data to a CRM, ERP, or data warehouse</li>
-  <li>Call internal APIs protected by bearer tokens or API keys</li>
-  <li>Run any HTTP integration without writing code</li>
-</ul>
+    code {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.88em;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
 
-<p>The action supports all standard HTTP methods (GET, POST, PUT, PATCH, DELETE) and four authentication modes: none, bearer token, API key header, and HTTP basic auth.</p>
+    pre {
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin: 10px 0 16px;
+    }
+    pre code { background: none; border: none; padding: 0; font-size: 0.875rem; }
 
-<hr>
+    strong { font-weight: 600; }
 
-<h2>Step 1 — Install the app</h2>
+    a { color: #f05a28; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-<ol>
-  <li>Go to <strong>Settings → Integrations → Connected Apps</strong> in your HubSpot account, or click the install link from the app listing.</li>
-  <li>You will be redirected to the King Henry authorisation page.</li>
-  <li>Click <strong>Connect</strong> to authorise the app. You will be asked to grant the <code>automation</code> scope, which allows the app to run workflow actions on your behalf.</li>
-  <li>After authorising, you will be redirected back to your HubSpot account. The app will appear in your Connected Apps list.</li>
-</ol>
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 40px 0; }
 
-<p>The app does not require any additional configuration after installation. No API keys or account credentials are needed on your end — authentication to external APIs is configured per workflow action.</p>
+    .subtitle {
+      font-size: 1.05rem;
+      color: #6b7280;
+      margin-bottom: 40px;
+    }
 
-<hr>
+    /* Image placeholder */
+    .img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #f8f9fa;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 32px 24px;
+      margin: 18px 0 24px;
+      text-align: center;
+    }
 
-<h2>Step 2 — Add the Custom API Call action to a workflow</h2>
+    .img-placeholder .img-icon {
+      font-size: 2rem;
+      opacity: 0.4;
+    }
 
-<ol>
-  <li>Open or create a workflow in <strong>Automation → Workflows</strong>.</li>
-  <li>Click the <strong>+</strong> button to add a new action.</li>
-  <li>In the action search panel, type <strong>Custom API</strong> or scroll to the <em>Connected Apps</em> section.</li>
-  <li>Select <strong>Custom API Call</strong>.</li>
-  <li>The action configuration panel will open on the right.</li>
-</ol>
+    .img-placeholder .img-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #374151;
+    }
 
-<hr>
+    .img-placeholder .img-desc {
+      font-size: 0.82rem;
+      color: #6b7280;
+      max-width: 560px;
+      line-height: 1.5;
+    }
 
-<h2>Step 3 — Configure the action fields</h2>
+    .img-placeholder .img-note {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      font-style: italic;
+    }
 
-<h3>Step name (required)</h3>
-<p>A label shown on the workflow canvas to identify this step. Use something descriptive like <em>Notify Slack</em> or <em>Create lead in CRM</em>. This is only for your reference inside HubSpot — it is not sent to the API.</p>
+    /* Callout */
+    .callout {
+      background: #fef9ec;
+      border-left: 4px solid #f5a623;
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.93rem;
+    }
+    .callout.info {
+      background: #eff6ff;
+      border-color: #3b82f6;
+    }
+    .callout.danger {
+      background: #fef2f2;
+      border-color: #ef4444;
+    }
 
-<h3>API URL (required)</h3>
-<p>The full HTTPS URL of the endpoint you want to call. Must start with <code>https://</code>. You can use HubSpot workflow tokens here to insert dynamic values (e.g. <code>https://api.example.com/contacts/{{contact.email}}</code>).</p>
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: #f05a28;
+      color: #fff;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
 
-<h3>HTTP Method (required)</h3>
-<p>Select one of: <strong>GET</strong>, <strong>POST</strong>, <strong>PUT</strong>, <strong>PATCH</strong>, <strong>DELETE</strong>.</p>
+    .toc {
+      background: #f8f9fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 32px 0 40px;
+    }
+    .toc h2 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6b7280;
+      border: none;
+      margin: 0 0 12px;
+      padding: 0;
+    }
+    .toc ol { margin-bottom: 0; }
+    .toc li { margin-bottom: 4px; font-size: 0.93rem; }
 
-<h3>Authentication type (required)</h3>
-<p>Select how the request should be authenticated:</p>
-<ul>
-  <li><strong>None</strong> — No authentication header is added.</li>
-  <li><strong>Bearer token</strong> — Adds an <code>Authorization: Bearer &lt;token&gt;</code> header. A <em>Bearer token</em> field will appear.</li>
-  <li><strong>API key (header)</strong> — Adds a custom header with your API key. Fields for the header name and value will appear (e.g. header name: <code>X-Api-Key</code>, value: your key).</li>
-  <li><strong>Basic auth</strong> — Adds an HTTP Basic authentication header. Fields for username and password will appear.</li>
-</ul>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 12px 0 18px;
+    }
+    th {
+      background: #f3f4f6;
+      text-align: left;
+      padding: 9px 12px;
+      font-weight: 600;
+      border: 1px solid #e5e7eb;
+    }
+    td {
+      padding: 9px 12px;
+      border: 1px solid #e5e7eb;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #fafafa; }
 
-<h3>Query parameters (optional)</h3>
-<p>A JSON object of key-value pairs to append to the URL as query string parameters. Example:</p>
-<pre><code>{
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Custom API Workflow Action</h1>
+  <p class="subtitle">Setup Guide — how to install, configure, and use the app in your HubSpot workflows</p>
+
+  <nav class="toc" aria-label="Table of contents">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#what-it-does">What this app does</a></li>
+      <li><a href="#install">Install the app</a></li>
+      <li><a href="#connect">Connect your HubSpot account</a></li>
+      <li><a href="#add-action">Add the action to a workflow</a></li>
+      <li><a href="#configure">Configure the action fields</a></li>
+      <li><a href="#use-outputs">Use output fields in subsequent steps</a></li>
+      <li><a href="#disconnect">Disconnect the app</a></li>
+      <li><a href="#uninstall">Uninstall the app</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+      <li><a href="#support">Support</a></li>
+    </ol>
+  </nav>
+
+
+  <!-- ============================================================ -->
+  <h2 id="what-it-does">What this app does</h2>
+
+  <p>The <strong>Custom API Workflow Action</strong> adds a <em>Custom API Call</em> step to HubSpot Workflows. When a workflow runs this action, it sends an HTTP request to any external API endpoint you configure — and returns the response back into the workflow as output fields you can use in downstream steps.</p>
+
+  <p>The action supports all five standard HTTP methods (GET, POST, PUT, PATCH, DELETE) and four authentication modes:</p>
+  <ul>
+    <li><strong>None</strong> — for open or IP-whitelisted endpoints</li>
+    <li><strong>Bearer token</strong> — for APIs using OAuth 2.0 or JWT access tokens</li>
+    <li><strong>API key header</strong> — for APIs using a custom header such as <code>X-Api-Key</code></li>
+    <li><strong>Basic auth</strong> — for APIs requiring a username and password</li>
+  </ul>
+
+  <p>Use it to notify external systems when deals close, push data to a CRM or ERP, trigger webhooks in Zapier, Make, or your own backend, or call any internal API — without writing code or building a custom integration.</p>
+
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 1 — Workflow canvas with the Custom API Call action</div>
+    <div class="img-desc">Show a HubSpot workflow with at least one enrolled trigger and a <strong>Custom API Call</strong> action step on the canvas. The step card should show a custom step name (e.g. "Notify CRM") so the reader can see how the action appears in practice.</div>
+    <div class="img-note">Crop to the workflow canvas area. Annotate the action step with a highlight box or arrow if needed.</div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="install">Install the app</h2>
+
+  <p>The app is installed via HubSpot's standard OAuth flow. No developer credentials or API keys on your side are required — authentication to your external APIs is configured per workflow step, not at install time.</p>
+
+  <ol>
+    <li>Go to the <a href="https://ecosystem.hubspot.com/marketplace/apps" target="_blank" rel="noopener">HubSpot App Marketplace</a> and search for <strong>Custom API Workflow Action</strong>.</li>
+    <li>Click <strong>Install app</strong> on the listing page.</li>
+    <li>You will be redirected to the King Henry authorisation page.</li>
+    <li>Review the requested permissions and click <strong>Connect app</strong>.</li>
+    <li>HubSpot will ask you to approve the scopes the app requires. Click <strong>Connect app</strong> on the HubSpot scope approval screen to grant access.</li>
+    <li>After approving, you are redirected back to HubSpot. The app will appear in <strong>Settings → Integrations → Connected Apps</strong>.</li>
+  </ol>
+
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 2 — App Marketplace listing page with the Install button</div>
+    <div class="img-desc">Show the <strong>Custom API Workflow Action</strong> listing page in the HubSpot App Marketplace. The <strong>Install app</strong> button should be clearly visible. Crop to the top portion of the listing — the app name, icon, tagline, and install button.</div>
+    <div class="img-note">Use a browser at standard zoom. Do not include personal account details.</div>
+  </div>
+
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 3 — HubSpot scope approval screen</div>
+    <div class="img-desc">Show the HubSpot OAuth scope approval screen that appears after clicking Install. It should list the <code>automation</code> scope and display the app name (<strong>Custom API Workflow Action</strong>) and the account name being authorised. The <strong>Connect app</strong> button must be visible.</div>
+    <div class="img-note">This is a mandatory screenshot for HubSpot certification. Crop to the modal or page content — exclude browser chrome. Blur or remove the account name if preferred.</div>
+  </div>
+
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 4 — Connected Apps list after install</div>
+    <div class="img-desc">Show <strong>Settings → Integrations → Connected Apps</strong> in HubSpot with the <strong>Custom API Workflow Action</strong> app appearing in the list. This confirms to the reader that installation was successful.</div>
+    <div class="img-note">Crop to just the Connected Apps list panel. Other installed apps are fine to include for context.</div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="connect">Connect your HubSpot account</h2>
+
+  <p>The OAuth authorisation step above connects your HubSpot account. No additional connection steps are needed after install — the app is immediately ready for use in workflows.</p>
+
+  <p>The app requests the <code>automation</code> scope only. This scope allows the app to register and execute workflow actions on your behalf. It does not grant access to your contacts, deals, or any other HubSpot data objects.</p>
+
+  <div class="callout info">
+    <strong>One installation covers your whole portal.</strong> You only need to install and authorise the app once. All users in your HubSpot portal can immediately add <em>Custom API Call</em> actions to their workflows — no per-user setup is required.
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="add-action">Add the action to a workflow</h2>
+
+  <p>Once installed, the <em>Custom API Call</em> action is available in every workflow, regardless of enrolled object type (contacts, companies, deals, tickets, custom objects).</p>
+
+  <ol>
+    <li>Go to <strong>Automation → Workflows</strong> and open an existing workflow, or create a new one.</li>
+    <li>Click the <strong>+</strong> button to add a new action at the desired position in the workflow.</li>
+    <li>In the action panel that opens, type <strong>Custom API</strong> in the search box — or scroll down to the <em>Connected apps</em> section.</li>
+    <li>Click <strong>Custom API Call</strong> to open the configuration panel.</li>
+  </ol>
+
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 5 — Workflow action search panel showing "Custom API Call"</div>
+    <div class="img-desc">Show the HubSpot workflow action panel (right sidebar) with <strong>"Custom API"</strong> typed into the search field. The <strong>Custom API Call</strong> result should be visible in the list, ideally under a <em>Connected apps</em> heading. The app icon should be visible next to the action name.</div>
+    <div class="img-note">Crop to the action search panel / sidebar only. No need to show the full workflow canvas.</div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <h2 id="configure">Configure the action fields</h2>
+
+  <p>The action configuration panel contains the following fields. Required fields must be filled in before saving the step.</p>
+
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 6 — Full action configuration panel</div>
+    <div class="img-desc">Show the <strong>Custom API Call</strong> configuration panel (right sidebar) with all fields visible: Step name, API URL, HTTP Method, Authentication type, Query parameters, Custom headers, Request body, and Timeout. If the panel is taller than the screen, take two overlapping screenshots or scroll to show all fields.</div>
+    <div class="img-note">Authentication type should be set to <strong>Bearer token</strong> so the Bearer token field is visible as an example of conditional fields. Annotate field names with callouts if the labels are hard to read.</div>
+  </div>
+
+  <h3>Step name <em>(required)</em></h3>
+  <p>A label shown on the workflow canvas to identify this action. Use something descriptive — for example <em>Notify Slack</em> or <em>Create lead in CRM</em>. This name is displayed on the workflow card and in the enrollment history, making it easy to identify each step at a glance. It is not sent to the external API.</p>
+
+  <h3>API URL <em>(required)</em></h3>
+  <p>The full HTTPS URL of the endpoint to call. The URL must begin with <code>https://</code>. You can embed HubSpot workflow tokens to build a dynamic URL at runtime:</p>
+  <pre><code>https://api.example.com/contacts/{{contact.email}}</code></pre>
+
+  <h3>HTTP Method <em>(required)</em></h3>
+  <p>The HTTP method for the request. Choose one of:</p>
+  <ul>
+    <li><strong>GET</strong> — retrieve data; no request body is sent</li>
+    <li><strong>POST</strong> — create a resource or trigger an action</li>
+    <li><strong>PUT</strong> — replace an existing resource</li>
+    <li><strong>PATCH</strong> — partially update an existing resource</li>
+    <li><strong>DELETE</strong> — remove a resource</li>
+  </ul>
+
+  <h3>Authentication type <em>(required)</em></h3>
+  <p>Controls how the request is authenticated. Selecting a type reveals the relevant credential fields:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Option</th>
+        <th>What it does</th>
+        <th>Extra fields shown</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>None</strong></td>
+        <td>No authentication header is added</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Bearer token</strong></td>
+        <td>Adds <code>Authorization: Bearer &lt;token&gt;</code></td>
+        <td>Bearer token</td>
+      </tr>
+      <tr>
+        <td><strong>API key (header)</strong></td>
+        <td>Adds a custom header with your key</td>
+        <td>Header name, Header value</td>
+      </tr>
+      <tr>
+        <td><strong>Basic auth</strong></td>
+        <td>Adds HTTP Basic authentication</td>
+        <td>Username, Password</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Query parameters <em>(optional)</em></h3>
+  <p>A JSON object of key-value pairs appended to the URL as query string parameters. Example:</p>
+  <pre><code>{
   "format": "json",
   "source": "hubspot"
 }</code></pre>
 
-<h3>Custom headers (optional)</h3>
-<p>A JSON object of additional HTTP headers to include in the request. Example:</p>
-<pre><code>{
+  <h3>Custom headers <em>(optional)</em></h3>
+  <p>A JSON object of additional HTTP headers to include in the request. Example:</p>
+  <pre><code>{
   "X-Custom-Header": "my-value",
   "Content-Type": "application/json"
 }</code></pre>
 
-<h3>Request body (optional)</h3>
-<p>A JSON object to send as the request body. Only used for POST, PUT, and PATCH requests. You can include HubSpot workflow tokens to insert contact or deal data dynamically. Example:</p>
-<pre><code>{
+  <h3>Request body <em>(optional)</em></h3>
+  <p>A JSON object sent as the request body. Used for POST, PUT, and PATCH requests. Embed HubSpot workflow tokens to include live record data at the time the workflow runs. Example:</p>
+  <pre><code>{
   "email": "{{contact.email}}",
   "dealName": "{{deal.dealname}}",
   "stage": "{{deal.dealstage}}"
 }</code></pre>
 
-<h3>Timeout (optional)</h3>
-<p>Maximum number of seconds to wait for a response before the action fails. Defaults to 10 seconds. Maximum allowed value is 60 seconds.</p>
+  <h3>Timeout <em>(optional)</em></h3>
+  <p>The maximum number of seconds the action will wait for a response before failing. Defaults to 10 seconds. Maximum allowed value is 60 seconds. If the API does not respond within this time, the workflow step is marked as failed and the <code>error_message</code> output field will contain a timeout description.</p>
 
-<hr>
 
-<h2>Step 4 — Use output fields in subsequent steps</h2>
+  <!-- ============================================================ -->
+  <h2 id="use-outputs">Use output fields in subsequent steps</h2>
 
-<p>After the Custom API Call action runs, four output fields are available for use in later workflow steps (such as <em>If/then branches</em>, <em>Set property value</em>, or additional API calls):</p>
+  <p>After the Custom API Call action runs, four output fields are available to reference in downstream workflow steps — such as <em>If/then branches</em>, <em>Set property value</em> actions, or additional API calls.</p>
 
-<ul>
-  <li><strong>status_code</strong> (number) — The HTTP status code returned by the API. For example: <code>200</code>, <code>201</code>, <code>400</code>, <code>404</code>, <code>500</code>.</li>
-  <li><strong>response_body</strong> (string) — The full response body returned by the API, as a string. If the API returns JSON, this will be the raw JSON string.</li>
-  <li><strong>success</strong> (boolean) — <code>true</code> if the status code was in the 2xx range, <code>false</code> otherwise.</li>
-  <li><strong>error_message</strong> (string) — If the request failed (network error, timeout, or non-2xx status), this contains a description of the error. Empty on success.</li>
-</ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Output field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>status_code</code></td>
+        <td>Number</td>
+        <td>The HTTP status code returned by the API (e.g. <code>200</code>, <code>201</code>, <code>400</code>, <code>404</code>, <code>500</code>)</td>
+      </tr>
+      <tr>
+        <td><code>response_body</code></td>
+        <td>String</td>
+        <td>The full response body as a string. If the API returns JSON, this is the raw JSON string</td>
+      </tr>
+      <tr>
+        <td><code>success</code></td>
+        <td>Boolean</td>
+        <td><code>true</code> if the status code was in the 2xx range; <code>false</code> otherwise</td>
+      </tr>
+      <tr>
+        <td><code>error_message</code></td>
+        <td>String</td>
+        <td>A description of the error if the request failed. Empty on success</td>
+      </tr>
+    </tbody>
+  </table>
 
-<h3>Example: Branch on success</h3>
-<p>After a Custom API Call step, add an <strong>If/then branch</strong>. Set the condition to <em>success is equal to true</em> to route contacts differently depending on whether the API call succeeded.</p>
+  <h3>Example: Branch on success or failure</h3>
+  <p>Add an <strong>If/then branch</strong> immediately after the Custom API Call step. Set the condition to <em>Custom API Call — success is equal to true</em> to route enrolled records differently depending on whether the API call succeeded.</p>
 
-<h3>Example: Store the response</h3>
-<p>Add a <strong>Set property value</strong> action after the API call. Use the <code>response_body</code> output token as the value to save the API's response to a HubSpot contact or deal property for later reference.</p>
+  <h3>Example: Save the API response to a property</h3>
+  <p>Add a <strong>Set property value</strong> action after the API call. Use the <code>response_body</code> output token as the value to store the API's response in a HubSpot contact or deal property for later reference or reporting.</p>
 
-<hr>
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 7 — Workflow enrollment history showing output field values</div>
+    <div class="img-desc">Show the workflow enrollment history view for a test contact that has run through a workflow containing the Custom API Call action. Expand the action step to show the four output fields: <strong>status_code</strong>, <strong>response_body</strong>, <strong>success</strong>, and <strong>error_message</strong> — with actual values populated (e.g. status_code = 200, success = true).</div>
+    <div class="img-note">Use a test API like <a href="https://httpbin.org/get" target="_blank" rel="noopener">https://httpbin.org/get</a> to generate a real response. Crop to the action detail panel. Blur any sensitive data.</div>
+  </div>
 
-<h2>Step 5 — Disconnect or uninstall the app</h2>
 
-<ol>
-  <li>Go to <strong>Settings → Integrations → Connected Apps</strong>.</li>
-  <li>Find <strong>Custom API Workflow Action</strong> and click <strong>Actions → Uninstall</strong>.</li>
-  <li>Confirm the uninstall. Any existing workflows using the Custom API Call action will stop executing that step after removal.</li>
-</ol>
+  <!-- ============================================================ -->
+  <h2 id="disconnect">Disconnect the app</h2>
 
-<p>Uninstalling the app does not delete any workflow data or contact properties. Existing workflow steps that referenced the action will remain in the workflow editor but will be marked as inactive.</p>
+  <p>Disconnecting the app revokes the OAuth authorisation token between your HubSpot portal and King Henry. After disconnecting, any workflow that runs a Custom API Call step will fail because the action can no longer be executed.</p>
 
-<hr>
+  <div class="callout danger">
+    <strong>Active workflows will stop working.</strong> Before disconnecting, pause or update any live workflows that contain a Custom API Call step. Disconnecting does not delete the workflow steps — they remain in your workflow editor and can be reactivated if you reinstall the app.
+  </div>
 
-<h2>Troubleshooting</h2>
+  <p>To disconnect:</p>
+  <ol>
+    <li>Go to <strong>Settings → Integrations → Connected Apps</strong>.</li>
+    <li>Find <strong>Custom API Workflow Action</strong> in the list.</li>
+    <li>Click <strong>Actions → Disconnect</strong> (or <strong>Uninstall</strong>, depending on your HubSpot version).</li>
+    <li>Confirm the disconnection in the dialog that appears.</li>
+  </ol>
 
-<h3>The action shows an error in the workflow history</h3>
-<ul>
-  <li>Check the <code>error_message</code> output field in the workflow action history for details.</li>
-  <li>Verify your API URL is correct and uses HTTPS.</li>
-  <li>Confirm your authentication credentials (token, API key, or username/password) are still valid.</li>
-  <li>Check that your API endpoint is publicly accessible from the internet.</li>
-</ul>
+  <p><strong>What happens to your data:</strong> Disconnecting does not delete any HubSpot properties, workflow configurations, or enrollment history. No data stored in HubSpot is removed. King Henry does not retain any of your HubSpot data after disconnection — the app proxies API requests in real time and stores nothing.</p>
 
-<h3>My request body tokens aren't resolving</h3>
-<ul>
-  <li>Ensure you are using the correct HubSpot token format: <code>{{contact.property_internal_name}}</code>.</li>
-  <li>Tokens are only available for properties on the workflow's enrollment object (e.g. contact tokens in a contact-based workflow).</li>
-</ul>
+  <div class="img-placeholder">
+    <div class="img-icon">🖼</div>
+    <div class="img-label">Screenshot 8 — Connected Apps page showing the Disconnect/Uninstall option</div>
+    <div class="img-desc">Show <strong>Settings → Integrations → Connected Apps</strong> in HubSpot with the <strong>Custom API Workflow Action</strong> row expanded or with the <strong>Actions</strong> dropdown open, revealing the <strong>Disconnect</strong> or <strong>Uninstall</strong> option. This helps users find where to disconnect.</div>
+    <div class="img-note">Annotate the Actions dropdown and Disconnect option with a highlight box or arrow. Blur the names of any other installed apps if preferred.</div>
+  </div>
 
-<h3>The request times out</h3>
-<ul>
-  <li>The maximum timeout is 60 seconds. If your API consistently takes longer than this, it is not suitable for use with this action.</li>
-  <li>Consider increasing the timeout value in the action configuration.</li>
-</ul>
 
-<hr>
+  <!-- ============================================================ -->
+  <h2 id="uninstall">Uninstall the app</h2>
 
-<h2>Need help?</h2>
+  <p>Uninstalling fully removes the app from your HubSpot portal, including the OAuth connection and the registered workflow action type.</p>
 
-<p>Contact us at <a href="mailto:support@kinghenry.au">support@kinghenry.au</a> and include:</p>
-<ul>
-  <li>Your HubSpot portal ID</li>
-  <li>The workflow name and the step name of the failing action</li>
-  <li>The error message from the workflow action history</li>
-</ul>
+  <p>To uninstall:</p>
+  <ol>
+    <li>Go to <strong>Settings → Integrations → Connected Apps</strong>.</li>
+    <li>Find <strong>Custom API Workflow Action</strong> in the list.</li>
+    <li>Click <strong>Actions → Uninstall</strong>.</li>
+    <li>Read the confirmation message and click <strong>Uninstall</strong> to confirm.</li>
+  </ol>
+
+  <div class="callout danger">
+    <strong>Workflows using this action will stop executing that step.</strong> Any workflow containing a Custom API Call step will continue to run, but the Custom API Call step will be skipped or marked as failed after uninstallation. To restore full functionality, reinstall the app and reconnect via OAuth.
+  </div>
+
+  <p><strong>What happens to your data after uninstall:</strong></p>
+  <ul>
+    <li>No HubSpot contacts, companies, deals, or other records are deleted.</li>
+    <li>No HubSpot properties are deleted.</li>
+    <li>Existing workflow steps that referenced the Custom API Call action remain in the workflow editor but are marked as inactive.</li>
+    <li>Workflow enrollment history is preserved and still visible in HubSpot.</li>
+    <li>King Henry does not store any of your HubSpot data — there is nothing on King Henry's side to delete.</li>
+  </ul>
+
+  <p>You can reinstall the app at any time from the HubSpot App Marketplace. After reinstalling, existing workflow steps that referenced the action will become active again without reconfiguration.</p>
+
+
+  <!-- ============================================================ -->
+  <h2 id="troubleshooting">Troubleshooting</h2>
+
+  <h3>The action shows an error in the workflow history</h3>
+  <ul>
+    <li>Open the workflow enrollment history and expand the Custom API Call step. Check the <code>error_message</code> output field for a specific error description.</li>
+    <li>Verify your API URL is correct and uses <code>https://</code>.</li>
+    <li>Confirm your authentication credentials (token, API key, or username and password) are still valid and have not expired.</li>
+    <li>Check that your API endpoint is publicly accessible from the internet — endpoints behind a VPN or firewall will not be reachable.</li>
+  </ul>
+
+  <h3>Workflow tokens in the request body are not resolving</h3>
+  <ul>
+    <li>Confirm you are using the correct HubSpot token format: <code>{{contact.property_internal_name}}</code>.</li>
+    <li>Tokens are only available for properties on the workflow's enrolled object type. For example, contact property tokens are only available in contact-based workflows.</li>
+    <li>Check that the property has a value for the enrolled record — tokens for empty properties resolve to an empty string.</li>
+  </ul>
+
+  <h3>The request times out</h3>
+  <ul>
+    <li>The maximum timeout is 60 seconds. If your API consistently takes longer to respond, it is not suitable for use with this action.</li>
+    <li>Try increasing the Timeout field value in the action configuration, up to the 60-second maximum.</li>
+    <li>Consider whether your API endpoint can be optimised to respond faster, or whether you should call a lighter endpoint.</li>
+  </ul>
+
+  <h3>The action worked previously but is now failing</h3>
+  <ul>
+    <li>Verify that the app is still connected under <strong>Settings → Integrations → Connected Apps</strong>. If the connection was lost, reinstall and reauthorise.</li>
+    <li>Check whether your API credentials have rotated or expired and update the workflow action configuration accordingly.</li>
+    <li>Verify the external API endpoint is still live and returning expected responses.</li>
+  </ul>
+
+
+  <!-- ============================================================ -->
+  <h2 id="support">Support</h2>
+
+  <p>If you need help, email <a href="mailto:support@kinghenry.au">support@kinghenry.au</a> with the following information:</p>
+  <ul>
+    <li>Your HubSpot portal ID (found in <strong>Settings → Account defaults</strong>)</li>
+    <li>The workflow name and the step name of the failing action</li>
+    <li>The error message from the workflow action history</li>
+    <li>The API URL you are calling (redact any credentials)</li>
+  </ul>
+
+  <p>We aim to respond to all support requests within one business day.</p>
+
+  <hr>
+
+  <footer>
+    <p>Custom API Workflow Action is developed and maintained by <strong>King Henry</strong>. For privacy information, see the <a href="https://kinghenry.au/privacy" target="_blank" rel="noopener">Privacy Policy</a>. For terms of use, see the <a href="https://kinghenry.au/terms" target="_blank" rel="noopener">Terms of Service</a>.</p>
+  </footer>
+
+</body>
+</html>
