@@ -8,19 +8,14 @@
     "auth": {
       "type": "oauth",
       "redirectUrls": [
-        "https://oauth.kinghenry.au/oauth/callback/custom_api_workflow"
+        "https://hub.kinghenry.au/oauth/callback/custom_api_workflow"
       ],
-      "requiredScopes": [
-        "automation",
-        "oauth"
-      ],
+      "requiredScopes": ["automation", "oauth"],
       "optionalScopes": [],
       "conditionallyRequiredScopes": []
     },
     "permittedUrls": {
-      "fetch": [
-        "https://oauth.kinghenry.au"
-      ],
+      "fetch": ["https://hub.kinghenry.au"],
       "iframe": [],
       "img": []
     },
