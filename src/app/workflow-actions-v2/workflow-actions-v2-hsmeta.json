@@ -1,0 +1,8 @@
+{
+  "uid": "CustomAPIWorkflowAction_v2",
+  "type": "workflow-action",
+  "config": {
+    "actionUrl": "https://hub.kinghenry.au/api/apps/custom-api-workflow/execute",
+    "isPublished": false
+  }
+}
