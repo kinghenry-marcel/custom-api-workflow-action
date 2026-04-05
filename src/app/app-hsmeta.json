@@ -1,8 +1,8 @@
 {
   "uid": "CustomAPIWorkflowAction_app",
   "type": "app",
-  "logo": "/app/app-logo.png",
   "config": {
+    "logo": "/app/app-logo.png",
     "description": "Send HTTP requests to any API endpoint directly from your workflows with flexible authentication options.",
     "name": "Custom API Workflow Action",
     "distribution": "marketplace",
